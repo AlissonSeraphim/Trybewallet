@@ -2,18 +2,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 
-import { expensesAction } from '../redux/actions';
+import { fetchCurrencies } from '../redux/actions';
 
 class WalletForm extends Component {
-  state = {
-    idValue: 0,
-    valueInput: 0,
-    descriptionInput: '',
-    currencyInput: 'BRL',
-    methodInput: 'Dinheiro',
-    tagInput: 'Alimentação',
-    arrayExample: [],
-  };
+  constructor() {
+    super();
+
+    this.state = {
+      valueInput: 0,
+      descriptionInput: '',
+      currencyInput: 'USD',
+      methodInput: 'Dinheiro',
+      tagInput: 'Alimentação',
+    };
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(fetchCurrencies());
+  }
 
   onInputChange = ({ target }) => {
     const { name, value } = target;
@@ -22,38 +29,40 @@ class WalletForm extends Component {
     });
   };
 
-  handleClickExpensesAction = (actualState) => {
-    const { dispatch } = this.props;
-    dispatch(expensesAction(actualState));
-  };
-
   render() {
     const {
       valueInput,
       descriptionInput,
       currencyInput,
-      arrayExample,
       methodInput,
       tagInput,
-      idValue,
     } = this.state;
 
-    const data = {
-      id: idValue,
-      value: valueInput,
-      currency: currencyInput,
-      method: methodInput,
-      tag: tagInput,
-      description: descriptionInput,
-      exchangeRates: arrayExample,
-    };
+    const {
+      currencies,
+    } = this.props;
+
+    // const data = {
+    //   id: idValue,
+    //   value: valueInput,
+    //   currency: currencyInput,
+    //   method: methodInput,
+    //   tag: tagInput,
+    //   description: descriptionInput,
+    //   exchangeRates: arrayExample,
+    // };
+
+    // Console log space
+    console.log(currencies);
+
+    /// ///////////////////////////////////////////0//////////////////////////
 
     return (
       <form>
         <label>
           Valor da despesa:
           <input
-            type="text"
+            type="number"
             name="valueInput"
             data-testid="value-input"
             value={ valueInput }
@@ -81,14 +90,16 @@ class WalletForm extends Component {
             onChange={ this.onInputChange }
           >
             {
-              arrayExample.map((coin) => (
-                <option
-                  key={ coin.code }
-                  value={ coin.code }
-                >
-                  { coin.name }
-                </option>
-              ))
+              currencies && (
+                currencies.map((coin, index) => (
+                  <option
+                    key={ coin + index }
+                    value={ coin }
+                  >
+                    { coin }
+                  </option>
+                ))
+              )
             }
           </select>
         </label>
@@ -123,9 +134,8 @@ class WalletForm extends Component {
         <button
           type="submit"
           name="submitButton"
-          disabled
+          disabled={ false }
           onClick={ () => {
-            this.handleClickExpensesAction(data);
           } }
 
         >
@@ -138,6 +148,11 @@ class WalletForm extends Component {
 
 WalletForm.propTypes = {
   dispatch: propTypes.func.isRequired,
+  currencies: propTypes.arrayOf(propTypes.string).isRequired,
 };
 
-export default connect()(WalletForm);
+const mapStateToProps = (state) => ({
+  currencies: state.wallet.currencies,
+});
+
+export default connect(mapStateToProps)(WalletForm);
