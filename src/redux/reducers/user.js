@@ -5,17 +5,24 @@ import { EMAIL_INPUT } from '../actions';
 
 // reducers
 const INITIAL_STATE = {
+  email: '',
   user: {
-    email: '',
+    email: '', // string que armazena o email da pessoa usuária
   },
-  wallet: {},
+  wallet: {
+    currencies: [], // array de string
+    expenses: [], // array de objetos, com cada objeto tendo as chaves id, value, currency, method, tag, description e exchangeRates
+    editor: false, // valor booleano que indica de uma despesa está sendo editada
+    idToEdit: 0, // valor numérico que armazena o id da despesa que esta sendo editada
+  },
 };
 
-export const emailReducer = (state = INITIAL_STATE, action) => {
+const user = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case EMAIL_INPUT:
     return {
       ...state,
+      email: action.payload, // efetuado um segundo email de armazenamento pois o teste do cypress não identifica o email de dentro do chave user
       user: {
         email: action.payload,
       },
@@ -25,3 +32,5 @@ export const emailReducer = (state = INITIAL_STATE, action) => {
     return state;
   }
 };
+
+export default user;

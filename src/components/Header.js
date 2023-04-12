@@ -32,7 +32,7 @@ Header.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  ...state.emailReducer,
+  ...state.user,
 });
 
 export default connect(mapStateToProps)(Header);
