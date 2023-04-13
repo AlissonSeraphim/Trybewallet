@@ -2,13 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 
-import { fetchCurrencies } from '../redux/actions';
+import {
+  fetchCurrencies,
+  expensesAction,
+  fetchExpensesRates,
+} from '../redux/actions';
 
 class WalletForm extends Component {
   constructor() {
     super();
 
     this.state = {
+      expenseID: 0,
       valueInput: 0,
       descriptionInput: '',
       currencyInput: 'USD',
@@ -22,6 +27,11 @@ class WalletForm extends Component {
     dispatch(fetchCurrencies());
   }
 
+  HandleClickExpensesAction = (data) => {
+    const { dispatch } = this.props;
+    dispatch(expensesAction(data));
+  };
+
   onInputChange = ({ target }) => {
     const { name, value } = target;
     this.setState({
@@ -31,6 +41,7 @@ class WalletForm extends Component {
 
   render() {
     const {
+      expenseID,
       valueInput,
       descriptionInput,
       currencyInput,
@@ -40,25 +51,26 @@ class WalletForm extends Component {
 
     const {
       currencies,
+      dispatch,
     } = this.props;
 
-    // const data = {
-    //   id: idValue,
-    //   value: valueInput,
-    //   currency: currencyInput,
-    //   method: methodInput,
-    //   tag: tagInput,
-    //   description: descriptionInput,
-    //   exchangeRates: arrayExample,
-    // };
+    const data = {
+      id: expenseID,
+      value: valueInput,
+      currency: currencyInput,
+      method: methodInput,
+      tag: tagInput,
+      description: descriptionInput,
+    };
 
     // Console log space
-    console.log(currencies);
+
+    // console.log(currencies);
 
     /// ///////////////////////////////////////////0//////////////////////////
 
     return (
-      <form>
+      <form onSubmit={ (e) => e.preventDefault() }>
         <label>
           Valor da despesa:
           <input
@@ -90,16 +102,14 @@ class WalletForm extends Component {
             onChange={ this.onInputChange }
           >
             {
-              currencies && (
-                currencies.map((coin, index) => (
-                  <option
-                    key={ coin + index }
-                    value={ coin }
-                  >
-                    { coin }
-                  </option>
-                ))
-              )
+              currencies.map((coin, index) => (
+                <option
+                  key={ coin + index }
+                  value={ coin }
+                >
+                  { coin }
+                </option>
+              ))
             }
           </select>
         </label>
@@ -132,10 +142,12 @@ class WalletForm extends Component {
           </select>
         </label>
         <button
-          type="submit"
+          type="button"
           name="submitButton"
           disabled={ false }
           onClick={ () => {
+            this.HandleClickExpensesAction(data);
+            dispatch(fetchExpensesRates(data));
           } }
 
         >
@@ -152,7 +164,9 @@ WalletForm.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  ...state,
   currencies: state.wallet.currencies,
+  expenses: state.wallet.expenses,
 });
 
 export default connect(mapStateToProps)(WalletForm);

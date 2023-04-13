@@ -1,7 +1,7 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 
 // actions;
-import { CURRENCIES_INPUT } from '../actions';
+import { CURRENCIES_INPUT, EXPENSES_INPUT, EXPENSES_FETCH } from '../actions';
 
 // reducers
 const INITIAL_STATE = {
@@ -12,6 +12,8 @@ const INITIAL_STATE = {
 };
 
 const wallet = (state = INITIAL_STATE, action) => {
+  const lastNumber = -1;
+
   switch (action.type) {
   case CURRENCIES_INPUT:
     return {
@@ -19,9 +21,31 @@ const wallet = (state = INITIAL_STATE, action) => {
       currencies: action.payload,
     };
 
+  case EXPENSES_INPUT:
+    return {
+      ...state,
+      expenses: [...state.expenses, action.payload],
+    };
+
+  case EXPENSES_FETCH:
+    // console.log(state.expenses[state.expenses.length - 1]);
+    return {
+      ...state,
+      expenses: [...state.expenses.slice(0, lastNumber),
+        {
+          ...state.expenses[state.expenses.length - 1],
+          exchangeRates: action.payload,
+          id: state.expenses.length - 1,
+        }],
+    };
+
   default:
     return state;
   }
 };
+
+// tentativas:
+// state.expenses[state.expenses.length - 1]
+// exchangeRates
 
 export default wallet;
