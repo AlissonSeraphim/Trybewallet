@@ -4,7 +4,6 @@ import propTypes from 'prop-types';
 
 import {
   fetchCurrencies,
-  expensesAction,
   fetchExpensesRates,
 } from '../redux/actions';
 
@@ -27,15 +26,17 @@ class WalletForm extends Component {
     dispatch(fetchCurrencies());
   }
 
-  HandleClickExpensesAction = (data) => {
-    const { dispatch } = this.props;
-    dispatch(expensesAction(data));
-  };
-
   onInputChange = ({ target }) => {
     const { name, value } = target;
     this.setState({
       [name]: value,
+    });
+  };
+
+  cleanInputs = () => {
+    this.setState({
+      valueInput: '',
+      descriptionInput: '',
     });
   };
 
@@ -146,10 +147,9 @@ class WalletForm extends Component {
           name="submitButton"
           disabled={ false }
           onClick={ () => {
-            this.HandleClickExpensesAction(data);
             dispatch(fetchExpensesRates(data));
+            this.cleanInputs();
           } }
-
         >
           Adicionar despesa
         </button>

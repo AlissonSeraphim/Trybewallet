@@ -4,7 +4,7 @@ import propTypes from 'prop-types';
 
 class Header extends Component {
   state = {
-    teste: 0,
+    expensesTotal: 0,
   };
 
   componentDidUpdate(prevProps) {
@@ -19,49 +19,36 @@ class Header extends Component {
   sumExpenses = () => {
     const { expenses } = this.props;
 
-    const firstValue = expenses[0].value;
-
     console.log(expenses);
     console.log('fui executado');
-    console.log(firstValue);
 
     // pegando array de asks e somando com o valor da despesa(value)
-    if (expenses.length > 1) {
-      console.log('entrei no array');
-      const arrayAsks = expenses.map((expense) => {
-        const exchangeRates = expense.exchangeRates[expense.currency];
-        if (exchangeRates) {
-          return exchangeRates.ask * expense.value;
-        }
-        return null;
-      });
-      console.log(arrayAsks);
-      /// //////// ----------------- ////////////////////////
-
-      //  soma do array construido
-
-      const sumArrayAsks = arrayAsks.reduce((acc, curr) => acc + curr, 0);
-      console.log(sumArrayAsks.toFixed(2));
-
-      if (sumArrayAsks) {
-        this.setState({
-          teste: sumArrayAsks,
-        });
-        return sumArrayAsks;
+    console.log('entrei no array');
+    const arrayAsks = expenses.map((expense) => {
+      const exchangeRates = expense.exchangeRates[expense.currency];
+      if (exchangeRates) {
+        return exchangeRates.ask * expense.value;
       }
-    }
+      return null;
+    });
+    console.log(arrayAsks);
+    /// //////// ----------------- ////////////////////////
 
-    if (expenses.length === 1) {
-      console.log('teste aqui');
+    //  soma do array construido
+
+    const sumArrayAsks = arrayAsks.reduce((acc, curr) => acc + curr, 0);
+    console.log(sumArrayAsks.toFixed(2));
+
+    if (sumArrayAsks) {
       this.setState({
-        teste: firstValue,
+        expensesTotal: +sumArrayAsks.toFixed(2),
       });
     }
   };
 
   render() {
     const { email } = this.props;
-    const { teste } = this.state;
+    const { expensesTotal } = this.state;
     return (
       <header>
         <h1
@@ -72,21 +59,15 @@ class Header extends Component {
         <p
           data-testid="total-field"
         >
-          0
+          {
+            expensesTotal
+          }
         </p>
         <h3
           data-testid="header-currency-field"
         >
           BRL
         </h3>
-        <h4
-          data-testid="total-field"
-        >
-          {
-            teste || 0
-          }
-        </h4>
-        <button type="button" onClick={ this.sumExpenses }>TESTE</button>
       </header>
     );
   }
