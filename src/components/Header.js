@@ -19,6 +19,9 @@ class Header extends Component {
   sumExpenses = () => {
     const { expenses } = this.props;
 
+    // Forçando a ser 0 inicialmente caso não ocorra soma e o estado mudou, só pode ser exclusão de despesa
+    this.setState({ expensesTotal: 0 });
+
     // console.log(expenses);
     // console.log('fui executado');
 
@@ -60,7 +63,7 @@ class Header extends Component {
           data-testid="total-field"
         >
           {
-            expensesTotal
+            expensesTotal.toFixed(2) || 0
           }
         </p>
         <h3

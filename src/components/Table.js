@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 
-import { deleteExpenseThunk } from '../redux/actions';
+import { deleteExpenseAction } from '../redux/actions/index';
 
 class Table extends Component {
   // componentDidUpdate(prevProps) {
@@ -40,6 +40,8 @@ class Table extends Component {
   render() {
     const arrayReturned = this.tableObject();
 
+    const { expenses, dispatch } = this.props;
+
     return (
       <table>
         <thead>
@@ -72,7 +74,9 @@ class Table extends Component {
                     <button
                       type="button"
                       data-testid="delete-btn"
-                      onClick={ deleteExpenseThunk }
+                      onClick={ () => {
+                        dispatch(deleteExpenseAction(expenses, parameter.id));
+                      } }
                     >
                       Excluaaa
                     </button>
@@ -90,6 +94,7 @@ class Table extends Component {
 Table.propTypes = {
   expenses: propTypes.arrayOf(propTypes.shape({
   })).isRequired,
+  dispatch: propTypes.func.isRequired,
   // dispatch: propTypes.func.isRequired,
   // id: propTypes.number.isRequired,
   // value: propTypes.number.isRequired,

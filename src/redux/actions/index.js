@@ -60,7 +60,18 @@ export function fetchExpensesRates(expenseObject) {
   };
 }
 
-export function deleteExpenseThunk(dispatch, getState) {
-  const estado = getState;
-  console.log(estado);
-}
+export const deleteExpenseAction = (actualState, idExpense) => {
+  console.log('Estado global:', actualState);
+  console.log('Estado global:', idExpense);
+
+  const state = actualState;
+
+  const deletedExpense = state.filter((expense) => expense.id !== idExpense);
+
+  console.log('Estado global atualizado:', deletedExpense);
+
+  return {
+    type: DELETE_EXPENSE,
+    payload: deletedExpense,
+  };
+};
