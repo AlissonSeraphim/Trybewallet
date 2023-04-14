@@ -9,6 +9,8 @@ export const EXPENSES_INPUT = 'INPUT_EXPENSES';
 
 export const EXPENSES_VALUE = 'EXPENSES_VALUES';
 
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+
 // Creators
 
 export const emailAction = (email) => ({
@@ -56,4 +58,9 @@ export function fetchExpensesRates(expenseObject) {
 
     dispatch(expensesAction(finalData));
   };
+}
+
+export function deleteExpenseThunk(dispatch, getState) {
+  const estado = getState;
+  console.log(estado);
 }

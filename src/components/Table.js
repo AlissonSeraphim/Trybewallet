@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 
+import { deleteExpenseThunk } from '../redux/actions';
+
 class Table extends Component {
   // componentDidUpdate(prevProps) {
   //   const { expenses } = this.props;
@@ -22,7 +24,7 @@ class Table extends Component {
           description: expense.description,
           tag: expense.tag,
           method: expense.method,
-          value: expense.value,
+          value: Number(expense.value).toFixed(2),
           currency: exchangeRate.name,
           ask: Number(exchangeRate.ask).toFixed(2),
           convertedValue: Number(exchangeRate.ask * expense.value).toFixed(2),
@@ -32,18 +34,11 @@ class Table extends Component {
       }
       return null;
     });
-
-    console.log(arrayExpenses);
     return arrayExpenses;
   };
 
   render() {
-    // const {
-    //   expenses,
-    // } = this.props;
-
     const arrayReturned = this.tableObject();
-    console.log(arrayReturned);
 
     return (
       <table>
@@ -73,7 +68,15 @@ class Table extends Component {
                   <td>{ parameter.ask }</td>
                   <td>{ parameter.convertedValue }</td>
                   <td>{ parameter.currentCurrency }</td>
-                  <td><button type="button">Excluaaa</button></td>
+                  <td>
+                    <button
+                      type="button"
+                      data-testid="delete-btn"
+                      onClick={ deleteExpenseThunk }
+                    >
+                      Excluaaa
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             ))
