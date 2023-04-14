@@ -10,8 +10,8 @@ class Header extends Component {
   componentDidUpdate(prevProps) {
     const { expenses } = this.props;
     if (prevProps.expenses.length !== expenses.length) {
-      console.log('atualizei');
-      console.log(prevProps.expenses.length);
+      // console.log('atualizei');
+      // console.log(prevProps.expenses.length);
       this.sumExpenses();
     }
   }
@@ -19,11 +19,11 @@ class Header extends Component {
   sumExpenses = () => {
     const { expenses } = this.props;
 
-    console.log(expenses);
-    console.log('fui executado');
+    // console.log(expenses);
+    // console.log('fui executado');
 
     // pegando array de asks e somando com o valor da despesa(value)
-    console.log('entrei no array');
+    // console.log('entrei no array');
     const arrayAsks = expenses.map((expense) => {
       const exchangeRates = expense.exchangeRates[expense.currency];
       if (exchangeRates) {
@@ -31,13 +31,13 @@ class Header extends Component {
       }
       return null;
     });
-    console.log(arrayAsks);
+    // console.log(arrayAsks);
     /// //////// ----------------- ////////////////////////
 
     //  soma do array construido
 
     const sumArrayAsks = arrayAsks.reduce((acc, curr) => acc + curr, 0);
-    console.log(sumArrayAsks.toFixed(2));
+    // console.log(sumArrayAsks.toFixed(2));
 
     if (sumArrayAsks) {
       this.setState({
