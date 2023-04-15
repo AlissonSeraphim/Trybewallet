@@ -104,7 +104,7 @@ describe('Testa a page Wallet', () => {
 
     const expenseValue = 150;
     const descriptionValue = 'SSD';
-    const currencyValue = 'USD';
+    // const currencyValue = 'USD';
     // const methodValue = 'Cartão de crédito';
     // const tagValue = 'Trabalho';
     // const textTest = screen.getByText(/USD/i);
@@ -124,7 +124,7 @@ describe('Testa a page Wallet', () => {
       'ETH',
       'XRP',
       'DOGE',
-    ]
+    ];
 
     userEvent.type(expenseInput, expenseValue);
     userEvent.type(descriptionInput, descriptionValue);
