@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import { emailAction } from '../redux/actions';
 
+import '../styles/login.css';
+
 class Login extends React.Component {
   state = {
     emailInput: '',
@@ -49,42 +51,51 @@ class Login extends React.Component {
     const { history } = this.props;
 
     return (
-      <form onSubmit={ this.handleSubmit }>
-        <label>
-          Email:
-          <input
-            type="email"
-            name="emailInput"
-            data-testid="email-input"
-            value={ emailInput }
-            onChange={ this.onInputChange }
-            required
-          />
-        </label>
-        <label>
-          Senha:
-          <input
-            type="password"
-            name="passwordInput"
-            data-testid="password-input"
-            value={ passwordInput }
-            onChange={ this.onInputChange }
-            required
-          />
-        </label>
-        <button
-          type="submit"
-          name="submitButton"
-          disabled={ this.verifyEntries() }
-          onClick={ () => {
-            this.handleClickEmailAction();
-            history.push('/carteira');
-          } }
+      <div className="login-block">
+        <h1>Trybewallet</h1>
+        <form onSubmit={ this.handleSubmit }>
+          <div>
+            <label>
+              Email:
+              <input
+                type="email"
+                id="emailUser"
+                name="emailInput"
+                placeholder="Email"
+                data-testid="email-input"
+                value={ emailInput }
+                onChange={ this.onInputChange }
+                required
+              />
+            </label>
+            <label>
+              Senha:
+              <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                name="passwordInput"
+                data-testid="password-input"
+                value={ passwordInput }
+                onChange={ this.onInputChange }
+                required
+              />
+            </label>
+            <button
+              type="submit"
+              name="submitButton"
+              disabled={ this.verifyEntries() }
+              onClick={ () => {
+                this.handleClickEmailAction();
+                history.push('/carteira');
+              } }
 
-        >
-          Entrar
-        </button>
-      </form>
+            >
+              Entrar
+            </button>
+          </div>
+        </form>
+      </div>
     );
   }
 }

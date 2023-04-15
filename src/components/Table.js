@@ -78,7 +78,7 @@ class Table extends Component {
                         dispatch(deleteExpenseAction(expenses, parameter.id));
                       } }
                     >
-                      Excluaaa
+                      Exclua
                     </button>
                   </td>
                 </tr>
