@@ -103,9 +103,9 @@ class WalletForm extends Component {
             onChange={ this.onInputChange }
           >
             {
-              currencies.map((coin, index) => (
+              currencies.map((coin) => (
                 <option
-                  key={ coin + index }
+                  key={ coin }
                   value={ coin }
                 >
                   { coin }

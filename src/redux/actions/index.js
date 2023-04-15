@@ -61,14 +61,14 @@ export function fetchExpensesRates(expenseObject) {
 }
 
 export const deleteExpenseAction = (actualState, idExpense) => {
-  console.log('Estado global:', actualState);
-  console.log('Estado global:', idExpense);
+  console.log('Estado global Atual:', actualState);
+  console.log('Estado global Id:', idExpense);
 
   const state = actualState;
 
   const deletedExpense = state.filter((expense) => expense.id !== idExpense);
 
-  console.log('Estado global atualizado:', deletedExpense);
+  console.log('Estado global Atualizado:', deletedExpense);
 
   return {
     type: DELETE_EXPENSE,
